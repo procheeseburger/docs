@@ -1,0 +1,14 @@
+---
+version: "3.9"
+services:
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ${FILE1}:/www/assets
+    ports:
+      - 8080:8080
+    restart: unless-stopped

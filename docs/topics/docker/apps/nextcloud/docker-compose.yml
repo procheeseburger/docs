@@ -1,0 +1,17 @@
+---
+version: "2.1"
+services:
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - /etc/localtime:/etc/localtime:ro
+      - NEXTCLOUD_DOMAIN_NAME=${DOMAIN1}
+    volumes:
+      - ${FILE1}:/config
+      - ${FILE2}:/data
+    ports:
+      - 8443:443
+    restart: unless-stopped

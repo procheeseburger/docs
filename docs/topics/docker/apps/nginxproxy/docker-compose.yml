@@ -1,0 +1,49 @@
+version: '3.7'
+
+networks:
+  proxy:
+    external: true
+  npm_mysql:
+    external: true
+
+services:
+  nginxproxy:
+    image: jc21/nginx-proxy-manager
+    container_name: nginxproxy
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    networks:
+      - proxy
+      - npm_mysql
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: ${DB_MYSQL_PORT}
+      DB_MYSQL_USER: ${DB_MYSQL_USER}
+      DB_MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+      DB_MYSQL_NAME: ${DB_MYSQL_NAME}
+    volumes:
+      - ${FILE1}:/data
+      - ${FILE2}:/etc/letsencrypt
+    restart: unless-stopped
+    depends_on: 
+      - db
+
+  db:
+    image: jc21/mariadb-aria
+    container_name: mysql-db
+    networks:
+      - npm_mysql
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DB_MYSQL_NAME}
+      MYSQL_USER: ${DB_MYSQL_USER}
+      MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+    volumes:
+      - ${FILE3}:/var/lib/mysql
+    restart: unless-stopped   

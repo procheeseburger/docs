@@ -1,0 +1,16 @@
+---
+version: "3.9"
+services:
+  tautulli:
+    image: lscr.io/linuxserver/tautulli:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${FILE1}:/config
+    networks:
+      - cloudflare
+networks:
+  cloudflare:
+    external: true

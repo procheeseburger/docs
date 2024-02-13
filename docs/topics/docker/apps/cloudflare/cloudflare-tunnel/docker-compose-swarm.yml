@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  tunnel:
+    image: cloudflare/cloudflared
+    networks:
+      - cloudflare
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TOKEN}
+    deploy:
+      mode: global
+
+networks:
+  cloudflare:
+    external: true

@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  portainer:
+    image: portainer/portainer-ee
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 8000:8000
+      - 9443:9443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${FILE1}:/data
+
+    networks:
+      - proxy
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${SERVICE}.entrypoints=http"
+      - "traefik.http.routers.${SERVICE}.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.middlewares.portainer-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.portainer.middlewares=portainer-https-redirect"
+      - "traefik.http.routers.${SERVICE}-secure.entrypoints=https"
+      - "traefik.http.routers.${SERVICE}-secure.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.${SERVICE}-secure.tls=true"
+      - "traefik.http.routers.${SERVICE}-secure.service=${SERVICE}"
+      - "traefik.http.services.${SERVICE}.loadbalancer.server.port=${PORT}"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
