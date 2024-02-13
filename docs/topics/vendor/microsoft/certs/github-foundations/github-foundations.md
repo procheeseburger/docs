@@ -1,3 +1,4 @@
 # Github Foundations
 
-![[logo.png]]
+
+![[./img/logo.png]]
