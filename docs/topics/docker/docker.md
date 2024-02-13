@@ -1,7 +1,6 @@
 ---
 id: Docker-Notes
 title: Docker
-slug: /docker-notes
 sidebar_position: 1
 ---
 
