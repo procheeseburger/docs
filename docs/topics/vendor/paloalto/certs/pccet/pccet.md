@@ -589,8 +589,7 @@
 
 ### The Connected Globe
 
-![connected](docs/topics/vendor/paloalto/certs/pccet/img/Connection.png)
-
+![[docs/topics/vendor/paloalto/certs/pccet/img/Connection.png]]
 - Common Network Devices
   - Routers
     - Physical or Virtual
